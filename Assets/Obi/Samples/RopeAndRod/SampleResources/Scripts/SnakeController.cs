@@ -22,6 +22,8 @@ public class SnakeController : MonoBehaviour
     private bool isEnd = false;
     public bool EndMovement { get; set; }
     private bool canMove = true;
+    
+    private int index =1;
 
     private void Start()
     {
@@ -227,6 +229,8 @@ public class SnakeController : MonoBehaviour
                 //if(diff<=0.75f) PathList.RemoveAt(0);
                 //PathList.Insert(0,SnakeHead.transform.forward*0.1f);
                 //GetComponent<SnakePlaceHolder>().SwapHolders();
+                FindObjectOfType<LevelController>().SetCompleteCount(index);
+                index*=-1;
             };
            
             
