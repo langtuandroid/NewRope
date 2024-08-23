@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PathEntryCalculator : MonoBehaviour
@@ -31,6 +32,26 @@ public class PathEntryCalculator : MonoBehaviour
       {
          RList[i] = RightPathTransformList[i].position;
       }
+   }
+
+   [Button]
+   public void SetAllList()
+   {
+      LeftPathTransformList.Clear();
+      RightPathTransformList.Clear();
+      
+      for (int i = 0; i < transform.childCount-1; i++)
+      {
+         LeftPathTransformList.Add(transform.GetChild(i));
+      }
+
+      for (int i = LeftPathTransformList.Count-1; 0 <= i; i--)
+      {
+         RightPathTransformList.Add(LeftPathTransformList[i]);
+      }
+
+      LList = new List<Vector3>(LeftPathTransformList.Count);
+      RList = new List<Vector3>(RightPathTransformList.Count);
    }
 
    public Transform GetClosestEntry()

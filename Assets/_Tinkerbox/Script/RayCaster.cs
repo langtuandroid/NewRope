@@ -11,15 +11,29 @@ public class RayCaster : MonoBehaviour
     public List<ObiSolver> obiSolver;
     public PathController PController;
 
+
+
     private void Start()
     {
         Application.targetFrameRate = 60;
+       
+        
+    }
+
+
+    public void FindSolvers()
+    {
+        foreach (var VARIABLE in FindObjectsOfType<ObiSolver>())
+        {
+            obiSolver.Clear();
+            obiSolver.Add(VARIABLE);
+        }
     }
 
     private GameObject GetHittedRope()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.Log("X: " + ray.origin.x + "Y: " + ray.origin.y + "Z: " + ray.origin.z);
+       // Debug.Log("X: " + ray.origin.x + "Y: " + ray.origin.y + "Z: " + ray.origin.z);
         Debug.DrawRay(ray.origin, ray.direction * 1000);
 
         int filter = ObiUtils.MakeFilter(ObiUtils.CollideWithEverything, 0);
@@ -52,7 +66,7 @@ public class RayCaster : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             var hittedSnake = GetHittedRope();
-            Debug.Log(hittedSnake.name);
+            //Debug.Log(hittedSnake.name);
             if (hittedSnake != null)
             {
                 SnakePlaceHolder sHolder = hittedSnake.GetComponent<SnakePlaceHolder>();
@@ -61,8 +75,8 @@ public class RayCaster : MonoBehaviour
                 sHolder.CurrentStartLayerChangeTo("Default",false);
                 
                 //Change layer to nonObstacle ---> NEXT PLACE
-                sHolder.ChangeAllNextPlaceLayer(false,"Default");
-                //sHolder.ChangeAllCurrentPlaceLayer(false,"Default");
+                //sHolder.ChangeAllNextPlaceLayer(false,"Default");
+                sHolder.ChangeAllCurrentPlaceLayer(false,"Default");
                 
                 //Get Current-End pos
                 var currentStartTransform = sHolder.GetCurrentHolderFirstTransform();

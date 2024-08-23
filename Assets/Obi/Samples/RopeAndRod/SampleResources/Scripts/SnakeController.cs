@@ -21,24 +21,26 @@ public class SnakeController : MonoBehaviour
     public Transform SnakeHead;
     private bool isEnd = false;
     public bool EndMovement { get; set; }
-    private bool canMove = true;
+    public bool canMove { get; set; } 
+
     
     private int index =1;
 
     private void Start()
     {
+        canMove = true;
         rope = GetComponent<ObiRope>();
         solver = rope.solver;
 
         // initialize traction array:
         traction = new float[rope.activeParticleCount];
         surfaceNormal = new Vector3[rope.activeParticleCount];
-
+        //GetComponent<ObiRopeExtrudedRenderer>().thicknessScale = 2f;
         // subscribe to solver events (to update surface information)
         //solver.OnBeginStep += ResetSurfaceInfo;
-       // solver.OnCollision += AnalyzeContacts;
+        // solver.OnCollision += AnalyzeContacts;
         //solver.OnParticleCollision += AnalyzeContacts;
-        
+
     }
 
 
@@ -212,7 +214,7 @@ public class SnakeController : MonoBehaviour
             Debug.Log("Movement DONE!");
             var a = (GetComponent<SnakePlaceHolder>().GetNextHolderEntryTransform().position - transform.position)
                 .magnitude;
-            Debug.Log(a);
+            //Debug.Log(a);
             //Swap kalkacak.
             canMove = true;
 
@@ -224,8 +226,8 @@ public class SnakeController : MonoBehaviour
                 
                 SetPath(GetComponent<SnakePlaceHolder>().CurrentPlaceHolderObject.GetComponent<PathEntryCalculator>()
                     .GetEntryPath(),true);
-                var diff = (PathList[0] - SnakeHead.transform.position).magnitude;
-                Debug.Log(diff);
+                //var diff = (PathList[0] - SnakeHead.transform.position).magnitude;
+                //Debug.Log(diff);
                 //if(diff<=0.75f) PathList.RemoveAt(0);
                 //PathList.Insert(0,SnakeHead.transform.forward*0.1f);
                 //GetComponent<SnakePlaceHolder>().SwapHolders();

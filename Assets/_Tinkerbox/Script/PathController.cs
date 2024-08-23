@@ -11,10 +11,12 @@ public class PathController : MonoBehaviour
     public Transform t1 { get; set; }
     public Transform t2 { get; set; }
     public SnakeController sController { get; set; }
+    private AudioSource _aSource;
 
     private void Start()
     {
         skr = GetComponent<Seeker>();
+        _aSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -40,7 +42,7 @@ public class PathController : MonoBehaviour
    {
       skr = _skr;
        sController = sC;
-       
+       if(!skr.gameObject.GetComponent<SnakeController>().canMove) return;
        skr.StartPath(t1.position, t2.position, OnPathComplete);
    }
     
@@ -83,16 +85,33 @@ public class PathController : MonoBehaviour
             d.transform.position = snakePathFirstPos;*/
             
             Debug.Log($"End Diff: {endDiff} , Start Diff: {startDiff}");
-            if (endDiff <= .75f && startDiff<=.95f)
+            SnakePlaceHolder a = null;
+            if (!sController.GetComponent<SnakePlaceHolder>().CurrentPlaceHolderObject.GetComponent<PlaceImageSetter>()
+                .IsUp)
             {
+                a = sController.GetComponent<SnakePlaceHolder>();
+            }
+            else
+            {
+                a = sController.GetComponent<SnakePlaceHolder>();
+            }
+            
+            
+            if (endDiff <= .75f && startDiff<=1.1f)
+            {
+                _aSource.Play();
                // seeker.GetComponent<asd>().MakePath(path.vectorPath);
                 Debug.Log("CAN MOVE");
               //  FindObjectOfType<SnakeController>().SetPath(path.vectorPath);
               sController.SetPath(path.vectorPath,false);
+              
               sController.GetComponent<SnakePlaceHolder>().SwapHolders();
               sController.EndMovement = true;
               sController.GetComponent<SnakePlaceHolder>().ChangeAllNextPlaceLayer(false,"Default");
               sController.GetComponent<SnakePlaceHolder>().ChangeAllCurrentPlaceLayer(true,"SnakePlace");
+              
+              
+              
 
             }
             else
@@ -100,7 +119,7 @@ public class PathController : MonoBehaviour
                 Debug.Log($"CANT MOVE, start diff: {startDiff} , end diff:{endDiff}");
                 sController.GetComponent<SnankeHeadInteractive>().SetColorFlash();
                 sController.GetComponent<SnakePlaceHolder>().ChangeAllCurrentPlaceLayer(true,"SnakePlace");
-
+                a.NextImageShake();
             }
 
         }
@@ -110,7 +129,7 @@ public class PathController : MonoBehaviour
         }
 
         // Yolun çizilmesi
-        DrawPath(path);
+        //DrawPath(path);
     }
 
     private void DrawPath(Path path)
