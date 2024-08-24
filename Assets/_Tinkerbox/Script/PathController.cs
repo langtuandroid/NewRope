@@ -17,6 +17,7 @@ public class PathController : MonoBehaviour
     {
         skr = GetComponent<Seeker>();
         _aSource = GetComponent<AudioSource>();
+        Debug.unityLogger.logEnabled = false;
     }
 
     private void Update()
@@ -64,27 +65,27 @@ public class PathController : MonoBehaviour
 
             neededLastPos.y = lastPathPos.y;
 
-            var snakeStartPos = t1.position;
+           var snakeStartPos = t1.position;
             var snakePathFirstPos = firstPoint;
             snakeStartPos.y = snakePathFirstPos.y;
 
             var startDiff = (snakePathFirstPos - snakeStartPos).magnitude;
             var endDiff = (neededLastPos - lastPathPos).magnitude;
 
-          /*  var a = new GameObject("LastPathPos");
-            var b = new GameObject("NeededLastPathPos");
+           /* var aa = new GameObject("LastPathPos");
+            var bb = new GameObject("NeededLastPathPos");
             
-            var c = new GameObject("SnakeStartPos");
-            var d = new GameObject("NeededSnakeStartPos");
+            var cc = new GameObject("SnakeStartPos");
+            var dd = new GameObject("NeededSnakeStartPos");
 
 
-            a.transform.position = lastPoint;
-            b.transform.position = neededLastPos;
+            aa.transform.position = lastPoint;
+            bb.transform.position = neededLastPos;
 
-            c.transform.position = snakeStartPos;
-            d.transform.position = snakePathFirstPos;*/
+            cc.transform.position = snakeStartPos;
+            dd.transform.position = snakePathFirstPos;*/
             
-            Debug.Log($"End Diff: {endDiff} , Start Diff: {startDiff}");
+//            Debug.Log($"End Diff: {endDiff} , Start Diff: {startDiff}");
             SnakePlaceHolder a = null;
             if (!sController.GetComponent<SnakePlaceHolder>().CurrentPlaceHolderObject.GetComponent<PlaceImageSetter>()
                 .IsUp)
@@ -116,16 +117,18 @@ public class PathController : MonoBehaviour
             }
             else
             {
-                Debug.Log($"CANT MOVE, start diff: {startDiff} , end diff:{endDiff}");
+               // Debug.Log($"CANT MOVE, start diff: {startDiff} , end diff:{endDiff}");
                 sController.GetComponent<SnankeHeadInteractive>().SetColorFlash();
                 sController.GetComponent<SnakePlaceHolder>().ChangeAllCurrentPlaceLayer(true,"SnakePlace");
-                a.NextImageShake();
+                //a.NextImageShake();
+                //a.ImageShake2();
+                sController.GetComponent<SnakePlaceHolder>().ImageShake2();
             }
 
         }
         else
         {
-            Debug.Log("No path found.");
+            //Debug.Log("No path found.");
         }
 
         // Yolun çizilmesi

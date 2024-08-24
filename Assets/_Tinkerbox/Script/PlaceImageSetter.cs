@@ -21,7 +21,7 @@ public class PlaceImageSetter : MonoBehaviour
       M = Rope.GetComponent<MeshRenderer>().material;
       _im = ImageCanvas.transform.GetChild(0).GetComponent<Image>();
       _im.color = M.color;
-      _im.DOFade(0.5f, 0.01f);
+      _im.DOFade(0.75f, 0.01f);
       ImageCanvas.GetComponent<RectTransform>().DOAnchorPosY(Y,0);
   }
 

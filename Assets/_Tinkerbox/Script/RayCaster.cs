@@ -1,23 +1,49 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Obi;
 using Pathfinding;
+using TMPro;
 using UnityEngine;
 
+[System.Serializable]
 public class RayCaster : MonoBehaviour
 {
 
     public List<ObiSolver> obiSolver;
     public PathController PController;
+    public LayerMask M;
 
+    public TextMeshProUGUI CounterTMP;
+    public int TotalCount;
+    public GameObject Glass;
+    private bool _shake = true;
 
+    public AudioSource GlassClick;
+    public AudioSource GlassDestroy;
 
+    public List<Glasses> GList;
+    public int ClickCount { get; set; }
+
+    private HapticManager _hM;
     private void Start()
     {
         Application.targetFrameRate = 60;
-       
         
+        for (int i = 0; i < GList.Count; i++)
+        {
+            
+            GList[i].GlassTMP.text = GList[i].GlassCount.ToString("0");
+        }
+
+        float f = 0;
+        DOTween.To(x => f = x, 0, 1, 0.1f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            AstarPath.active.Scan();
+        });
+
+        _hM = FindObjectOfType<HapticManager>();
     }
 
 
@@ -28,6 +54,18 @@ public class RayCaster : MonoBehaviour
             obiSolver.Clear();
             obiSolver.Add(VARIABLE);
         }
+    }
+
+    public RaycastHit CheckGlass()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        
+        if (Physics.Raycast(ray, out hit, 100f, M)) return hit;
+            
+        
+        
+            return hit;
     }
 
     private GameObject GetHittedRope()
@@ -63,14 +101,44 @@ public class RayCaster : MonoBehaviour
 
     private void Update()
     {
+        if (GList.Count > 0)
+        {
+            for (int i = 0; i < GList.Count; i++)
+            {
+                GList[i].GlassTMP.text = GList[i].GlassCount.ToString("0");
+
+                if (GList[i].GlassCount <= 0)
+                {
+                    GlassDestroy.Play();
+                    GList[i].GlassObject.SetActive(false);
+                    GList.RemoveAt(i);
+                }
+            }
+        }
+        
         if (Input.GetMouseButtonDown(0))
         {
+            var c = CheckGlass();
+
+            if (c.collider != null)
+            {
+                GlassClick.Play();
+                _hM.SetVibration(true);
+                ShakeGlass(c.collider.gameObject);
+                return;
+            }
+            Debug.Log(c);
             var hittedSnake = GetHittedRope();
+            //Debug.Log(hittedSnake.name);
+
             //Debug.Log(hittedSnake.name);
             if (hittedSnake != null)
             {
+                _hM.SetVibration(false);
+
+                //Debug.Log("DDD");
                 SnakePlaceHolder sHolder = hittedSnake.GetComponent<SnakePlaceHolder>();
-                
+                ClickCount++;
                 //Change layer to nonObstacle ---> CURRENT PLACE
                 sHolder.CurrentStartLayerChangeTo("Default",false);
                 
@@ -96,4 +164,45 @@ public class RayCaster : MonoBehaviour
             }
         }
     }
+
+    public void DecreaseCount()
+    {
+        if (GList.Count==0) return;
+       // TotalCount--;
+
+        for (int i = 0; i < GList.Count; i++)
+        {
+            GList[i].GlassCount--;
+            GList[i].GlassTMP.text = GList[i].GlassCount.ToString("0");
+        }
+        //CounterTMP.text = TotalCount.ToString("0");
+
+      
+        if (TotalCount <= 0)
+        {
+           // GlassDestroy.Play();
+            //Glass.SetActive(false);
+            
+        }
+    }
+
+    public void ShakeGlass(GameObject go)
+    {
+        if(!_shake) return;
+        _shake = false;
+        go.transform.DOShakeScale(.1f, 1f, 1, .25f, false, ShakeRandomnessMode.Harmonic).SetEase(Ease.Linear).SetLoops(2,LoopType.Yoyo)
+            .OnComplete(
+                () =>
+                {
+                    _shake = true;
+                });
+    }
+}
+
+[System.Serializable]
+public class Glasses
+{
+    public GameObject GlassObject;
+    public TextMeshProUGUI GlassTMP;
+    public int GlassCount;
 }

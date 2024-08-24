@@ -59,7 +59,7 @@ namespace Pathfinding {
 					// Return the path
 					((IPathInternals)path).ReturnPath();
 				} catch (System.Exception e) {
-					Debug.LogException(e);
+					//Debug.LogException(e);
 				}
 
 				// Will increment path state to Returned

@@ -19,7 +19,46 @@ public class SnakePlaceHolder : MonoBehaviour
       NextPlaceHolderObject.GetComponent<PlaceImageSetter>().SetCanvasEnabled(true);
       CurrentPlaceHolderObject.GetComponent<PlaceImageSetter>().SetCanvasEnabled(false);
    }
-   
+
+   public void ImageShake2()
+   {
+      Debug.Log("2");
+      if(_shake) return;
+      _shake = true;
+      Debug.Log("3");
+
+      GameObject go = null;
+
+      if (NextPlaceHolderObject.GetComponent<PlaceImageSetter>().IsUp)
+      {
+         //go.SetActive(true);
+       
+         go = NextPlaceHolderObject.GetComponent<PlaceImageSetter>().ImageCanvas.gameObject;
+
+         go.gameObject.GetComponent<RectTransform>()
+            .DOScale(.75f, .175f).SetEase(Ease.Linear).SetLoops(6, LoopType.Yoyo).OnComplete(
+               () =>
+               {
+                  //go.SetActive(false);
+                  _shake = false;
+               });
+      }
+      else
+      {
+         
+         go = NextPlaceHolderObject.GetComponent<PlaceImageSetter>().ImageCanvas.gameObject;
+
+         go.SetActive(true);
+        
+         go.GetComponent<RectTransform>()
+            .DOScale(.75f, .175f).SetEase(Ease.Linear).SetLoops(6, LoopType.Yoyo).OnComplete(
+               () =>
+               {
+                  go.SetActive(false);
+                  _shake = false;
+               });
+      }
+   }
    
    public void NextImageShake()
    {
@@ -80,7 +119,9 @@ public class SnakePlaceHolder : MonoBehaviour
    {
       //snake head e esitlenmeli
       NextPlaceHolderObject.GetComponent<PathEntryCalculator>().SnakeHead = sController.SnakeHead;
-      //Debug.Log("Next start place alindi");
+      Debug.Log("Next start place alindi" + " " + NextPlaceHolderObject.GetComponent<PathEntryCalculator>().GetClosestEntry().gameObject.name );
+      new GameObject("aa").transform.position =
+         NextPlaceHolderObject.GetComponent<PathEntryCalculator>().GetClosestEntry().position;
       return NextPlaceHolderObject.GetComponent<PathEntryCalculator>().GetClosestEntry();
    }
 

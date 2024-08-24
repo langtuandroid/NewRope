@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -54,8 +55,16 @@ public class PathEntryCalculator : MonoBehaviour
       RList = new List<Vector3>(RightPathTransformList.Count);
    }
 
+ 
+
+   
+   
    public Transform GetClosestEntry()
    {
+      
+      
+      
+      
       var left = LeftPathStartTransform.position;
       var right = RightPathStartTransform.position;
 

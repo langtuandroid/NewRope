@@ -21,8 +21,9 @@ public class SnakeController : MonoBehaviour
     public Transform SnakeHead;
     private bool isEnd = false;
     public bool EndMovement { get; set; }
-    public bool canMove { get; set; } 
-
+    public bool canMove { get; set; }
+    private RayCaster _rcaster;
+    private bool _decreaseRay = true;
     
     private int index =1;
 
@@ -31,7 +32,7 @@ public class SnakeController : MonoBehaviour
         canMove = true;
         rope = GetComponent<ObiRope>();
         solver = rope.solver;
-
+        _rcaster = FindObjectOfType<RayCaster>();
         // initialize traction array:
         traction = new float[rope.activeParticleCount];
         surfaceNormal = new Vector3[rope.activeParticleCount];
@@ -104,6 +105,12 @@ public class SnakeController : MonoBehaviour
     
     public void SetPath(List<Vector3> path,bool isEndPath)
     {
+        if (_decreaseRay)
+        {
+            _decreaseRay = false;
+            _rcaster.DecreaseCount();
+        }
+        
         if(!canMove) return;
         canMove = false;
         isEnd = isEndPath;
