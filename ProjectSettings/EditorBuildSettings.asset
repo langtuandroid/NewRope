@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/_Tinkerbox/Scene/New/0.unity
     guid: 89d06d1569c514f0e9178f9efad07e0c
   - enabled: 1
+    path: Assets/_Tinkerbox/Scene/New/1 20.unity
+    guid: 74d41854d67d947f0bf9d7a3231f4a51
+  - enabled: 1
     path: Assets/_Tinkerbox/Scene/New/1.unity
     guid: 7df19cb803b40402cb027755b0c0f5af
   - enabled: 1

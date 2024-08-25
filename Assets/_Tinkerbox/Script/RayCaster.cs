@@ -14,6 +14,7 @@ public class RayCaster : MonoBehaviour
     public List<ObiSolver> obiSolver;
     public PathController PController;
     public LayerMask M;
+    public LayerMask Tuto2;
 
     public TextMeshProUGUI CounterTMP;
     public int TotalCount;
@@ -27,11 +28,12 @@ public class RayCaster : MonoBehaviour
     public int ClickCount { get; set; }
 
     private HapticManager _hM;
+    private Tuto2 tt2;
     private void Start()
     {
         //Application.targetFrameRate = 60;
-        
-        
+
+        tt2 = FindObjectOfType<Tuto2>();
         for (int i = 0; i < GList.Count; i++)
         {
             
@@ -67,6 +69,18 @@ public class RayCaster : MonoBehaviour
         
         
             return hit;
+    }
+
+    public RaycastHit CheckTuto2()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        
+        if (Physics.Raycast(ray, out hit, 100f, Tuto2)) return hit;
+            
+        
+        
+        return hit;
     }
 
     private GameObject GetHittedRope()
@@ -120,7 +134,10 @@ public class RayCaster : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             var c = CheckGlass();
-
+            var dd = CheckTuto2();
+            
+            if(dd.collider != null) return;
+            
             if (c.collider != null)
             {
                 GlassClick.Play();
@@ -135,6 +152,8 @@ public class RayCaster : MonoBehaviour
             //Debug.Log(hittedSnake.name);
             if (hittedSnake != null)
             {
+                if(tt2 != null) tt2.RaiseIndex();
+                
                 _hM.SetVibration(false);
 
                 //Debug.Log("DDD");

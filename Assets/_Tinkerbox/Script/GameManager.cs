@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     {
         var index = PlayerPrefs.GetInt("CurrentLevelIndex");
         index++;
-        if (index > TotalLevelCount) index = 3;
+        if (index > TotalLevelCount) index = 4;
         PlayerPrefs.SetInt("CurrentLevelIndex",index);
 
         SceneManager.LoadScene(index);

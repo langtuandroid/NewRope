@@ -1649,7 +1649,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   thickness: 0.175
-  resolution: 0.85
+  resolution: 0.875
   m_InterParticleDistance: 0.19440357
   totalParticles: 122
   m_RestLength: 23.52247

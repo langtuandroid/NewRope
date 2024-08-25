@@ -17,7 +17,7 @@ public class PathController : MonoBehaviour
     {
         skr = GetComponent<Seeker>();
         _aSource = GetComponent<AudioSource>();
-        Debug.unityLogger.logEnabled = false;
+        //Debug.unityLogger.logEnabled = false;
     }
 
     private void Update()

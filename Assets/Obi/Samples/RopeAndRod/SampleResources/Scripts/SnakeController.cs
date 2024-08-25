@@ -26,6 +26,7 @@ public class SnakeController : MonoBehaviour
     private bool _decreaseRay = true;
     
     private int index =1;
+    private Tuto2 _t2;
 
     private void Start()
     {
@@ -36,6 +37,7 @@ public class SnakeController : MonoBehaviour
         // initialize traction array:
         traction = new float[rope.activeParticleCount];
         surfaceNormal = new Vector3[rope.activeParticleCount];
+        _t2 = FindObjectOfType<Tuto2>();
         //GetComponent<ObiRopeExtrudedRenderer>().thicknessScale = 2f;
         // subscribe to solver events (to update surface information)
         //solver.OnBeginStep += ResetSurfaceInfo;
@@ -238,8 +240,29 @@ public class SnakeController : MonoBehaviour
                 //if(diff<=0.75f) PathList.RemoveAt(0);
                 //PathList.Insert(0,SnakeHead.transform.forward*0.1f);
                 //GetComponent<SnakePlaceHolder>().SwapHolders();
-                FindObjectOfType<LevelController>().SetCompleteCount(index);
-                index*=-1;
+                
+              //  FindObjectOfType<LevelController>().SetCompleteCount(index);
+               // index*=-1;
+               if (_t2 != null)
+               {
+                   if (!GetComponent<SnakePlaceHolder>().CurrentPlaceHolderObject.GetComponent<PlaceImageSetter>().IsUp)
+                   {
+                       
+                   }
+               }
+              
+               
+                if (GetComponent<SnakePlaceHolder>().CurrentPlaceHolderObject.GetComponent<PlaceImageSetter>().IsUp)
+                {
+                    FindObjectOfType<LevelController>().SetCompleteCount(1);
+
+                }
+                else
+                {
+                    var b = FindObjectOfType<LevelController>();
+                   if(b.currentCount >0 ) b.SetCompleteCount(-1);
+                 
+                }
             };
            
             

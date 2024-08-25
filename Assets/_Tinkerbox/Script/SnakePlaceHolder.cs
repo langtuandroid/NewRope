@@ -17,7 +17,7 @@ public class SnakePlaceHolder : MonoBehaviour
       CurrentPlaceHolderObject.GetComponent<PlaceLayerSetter>().SetObstacleComponentEnable(true,"SnakePlace");
       NextPlaceHolderObject.GetComponent<PlaceLayerSetter>().SetObstacleComponentEnable(false,"Default");
       NextPlaceHolderObject.GetComponent<PlaceImageSetter>().SetCanvasEnabled(true);
-      CurrentPlaceHolderObject.GetComponent<PlaceImageSetter>().SetCanvasEnabled(false);
+      if(!CurrentPlaceHolderObject.GetComponent<PlaceImageSetter>().IsUp) CurrentPlaceHolderObject.GetComponent<PlaceImageSetter>().SetCanvasEnabled(false);
    }
 
    public void ImageShake2()
