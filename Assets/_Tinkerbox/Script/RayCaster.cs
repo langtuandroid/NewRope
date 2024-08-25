@@ -29,7 +29,8 @@ public class RayCaster : MonoBehaviour
     private HapticManager _hM;
     private void Start()
     {
-        Application.targetFrameRate = 60;
+        //Application.targetFrameRate = 60;
+        
         
         for (int i = 0; i < GList.Count; i++)
         {
