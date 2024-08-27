@@ -47,6 +47,14 @@ public class RayCaster : MonoBehaviour
         });
 
         _hM = FindObjectOfType<HapticManager>();
+        
+        obiSolver.Clear();
+        foreach (var VARIABLE in FindObjectsOfType<ObiSolver>())
+        {
+           if(VARIABLE.gameObject.activeSelf) obiSolver.Add(VARIABLE);
+        }
+
+        FindObjectOfType<LevelController>().TotalCompleteCount = obiSolver.Count;
     }
 
 
@@ -124,7 +132,7 @@ public class RayCaster : MonoBehaviour
 
                 if (GList[i].GlassCount <= 0)
                 {
-                    GlassDestroy.Play();
+                    //GlassDestroy.Play();
                     GList[i].GlassObject.SetActive(false);
                     GList.RemoveAt(i);
                 }
@@ -210,7 +218,7 @@ public class RayCaster : MonoBehaviour
     {
         if(!_shake) return;
         _shake = false;
-        go.transform.DOShakeScale(.1f, 1f, 1, .25f, false, ShakeRandomnessMode.Harmonic).SetEase(Ease.Linear).SetLoops(2,LoopType.Yoyo)
+        go.transform.DOShakeScale(.1f, .25f, 1, .25f, false, ShakeRandomnessMode.Harmonic).SetEase(Ease.Linear).SetLoops(2,LoopType.Yoyo)
             .OnComplete(
                 () =>
                 {

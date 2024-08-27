@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            LevelSucces();
+           // LevelSucces();
         }
     }
 
